@@ -85,21 +85,23 @@ mv weewx.sdb_new weewx.sdb
 
 After you perform this, these new columns will be available:
 
-battery_voltage
-battery_sense_voltage
-battery_voltage_slow
-battery_daily_minimum_voltage
-battery_daily_maximum_voltage
-target_regulation_voltage
-array_voltage
-array_charge_current
-battery_charge_current
-battery_charge_current_slow
-input_power
-output_power
-heatsink_temperature
-battery_temperature
-charge_state
-seconds_in_absorption_daily
-seconds_in_float_daily
-seconds_in_equalize_daily
+| Attribute                       | Description                                                | Units |
+| ------------------------------- | ---------------------------------------------------------- | ----- |
+| battery_voltage                 | The battery voltage used in charge calculations            | Volts |
+| battery_sense_voltage           | The battery voltage sensed by the remote sensor wires      | Volts |
+| battery_voltage_slow            | The battery voltage used in charge calcs heavily filtered  | Volts | 
+| battery_daily_minimum_voltage   | The minimum voltage encountered since last night mode      | Volts |
+| battery_daily_maximum_voltage   | The maximum voltage encountered since last night mode      | Volts |
+| target_regulation_voltage       | 
+| array_voltage                   |
+| array_charge_current            |
+| battery_charge_current          |
+| battery_charge_current_slow     |
+| input_power                     |
+| output_power                    |
+| heatsink_temperature            |
+| battery_temperature             |
+| charge_state                    |
+| seconds_in_absorption_daily     |
+| seconds_in_float_daily          |
+| seconds_in_equalize_daily       |

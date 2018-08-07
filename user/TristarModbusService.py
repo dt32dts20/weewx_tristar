@@ -23,6 +23,30 @@ schema_with_tristar = schemas.wview.schema + [('battery_voltage', 'REAL'),
 											  ('seconds_in_float_daily', 'REAL'),
 											  ('seconds_in_equalize_daily', 'REAL')]
 
+import weewx.units
+weewx.units.obs_group_dict['battery_voltage'] = 'group_volt'
+weewx.units.obs_group_dict['battery_sense_voltage'] = 'group_volt'
+weewx.units.obs_group_dict['battery_voltage_slow'] = 'group_volt'
+weewx.units.obs_group_dict['battery_daily_minimum_voltage'] = 'group_volt'
+weewx.units.obs_group_dict['battery_daily_maximum_voltage'] = 'group_volt'
+weewx.units.obs_group_dict['target_regulation_voltage'] = 'group_volt'
+weewx.units.obs_group_dict['array_voltage'] = 'group_volt'
+weewx.units.obs_group_dict['array_charge_current'] = 'group_amp'
+weewx.units.obs_group_dict['battery_charge_current'] = 'group_amp'
+weewx.units.obs_group_dict['battery_charge_current_slow'] = 'group_amp'
+weewx.units.obs_group_dict['input_power'] = 'group_power'
+weewx.units.obs_group_dict['output_power'] = 'group_power'
+weewx.units.obs_group_dict['heatsink_temperature'] = 'group_temperature'
+weewx.units.obs_group_dict['battery_temperature'] = 'group_temperature'
+weewx.units.obs_group_dict['charge_state'] = 'group_charge_state'
+weewx.units.USUnits['charge_state'] = 'state'
+weewx.units.MetricUnits['charge_state'] = 'cstate'
+weewx.units.MetricWXUnits['charge_state'] = 'cstate'
+weewx.units.default_unit_format_dict['cstate'] = '%d'
+weewx.units.default_unit_label_dict['cstate'] = ' Charge Mode'
+weewx.units.obs_group_dict['seconds_in_absorption_daily'] = 'group_elapsed'
+weewx.units.obs_group_dict['seconds_in_float_daily'] = 'group_elapsed'
+weewx.units.obs_group_dict['seconds_in_equalize_daily'] = 'group_elapsed'
 
 class AddTristarData(StdService):
 	def __init__(self, engine, config_dict):
@@ -50,69 +74,69 @@ class AddTristarData(StdService):
 			client.close()
 			syslog.syslog(syslog.LOG_ERR, "Failed to connect to tristar")
 		else:
-			syslog.syslog(syslog.LOG_INFO, "Connected to tristar")
+			syslog.syslog(syslog.LOG_INFO, "Successfully retrieved packet from Tristar")
 			voltage_scaling_factor = (float(rr.registers[0]) + (float(rr.registers[1]) / 100))
 			amperage_scaling_factor = (float(rr.registers[2]) + (float(rr.registers[3]) / 100))
 
 			# Voltage Related Statistics
 			battery_voltage = float(rr.registers[24]) * voltage_scaling_factor * 2 ** (-15)
-			syslog.syslog(syslog.LOG_INFO, "Battery Voltage: %.2f" % battery_voltage)
+			syslog.syslog(syslog.LOG_DEBUG, "Battery Voltage: %.2f" % battery_voltage)
 			event.record['battery_voltage'] = battery_voltage
 
 			battery_sense_voltage = float(rr.registers[26]) * voltage_scaling_factor * 2 ** (-15)
-			syslog.syslog(syslog.LOG_INFO, "Battery Sense Voltage: %.2f" % battery_sense_voltage)
+			syslog.syslog(syslog.LOG_DEBUG, "Battery Sense Voltage: %.2f" % battery_sense_voltage)
 			event.record['battery_sense_voltage'] = battery_sense_voltage
 
 			battery_voltage_slow = float(rr.registers[38]) * voltage_scaling_factor * 2 ** (-15)
-			syslog.syslog(syslog.LOG_INFO, "Battery Voltage (Slow): %.2f" % battery_voltage_slow)
+			syslog.syslog(syslog.LOG_DEBUG, "Battery Voltage (Slow): %.2f" % battery_voltage_slow)
 			event.record['battery_voltage_slow'] = battery_voltage_slow
 
 			battery_daily_minimum_voltage = float(rr.registers[64]) * voltage_scaling_factor * 2 ** (-15)
-			syslog.syslog(syslog.LOG_INFO, "Battery Daily Minimum Voltage: %.2f" % battery_daily_minimum_voltage)
+			syslog.syslog(syslog.LOG_DEBUG, "Battery Daily Minimum Voltage: %.2f" % battery_daily_minimum_voltage)
 			event.record['battery_daily_minimum_voltage'] = battery_daily_minimum_voltage
 
 			battery_daily_maximum_voltage = float(rr.registers[65]) * voltage_scaling_factor * 2 ** (-15)
-			syslog.syslog(syslog.LOG_INFO, "Battery Daily Maximum Voltage: %.2f" % battery_daily_maximum_voltage)
+			syslog.syslog(syslog.LOG_DEBUG, "Battery Daily Maximum Voltage: %.2f" % battery_daily_maximum_voltage)
 			event.record['battery_daily_maximum_voltage'] = battery_daily_maximum_voltage
 
 			target_regulation_voltage = float(rr.registers[51]) * voltage_scaling_factor * 2 ** (-15)
-			syslog.syslog(syslog.LOG_INFO, "Target Regulation Voltage: %.2f" % target_regulation_voltage)
+			syslog.syslog(syslog.LOG_DEBUG, "Target Regulation Voltage: %.2f" % target_regulation_voltage)
 			event.record['target_regulation_voltage'] = target_regulation_voltage
 
 			array_voltage = float(rr.registers[27]) * voltage_scaling_factor * 2 ** (-15)
-			syslog.syslog(syslog.LOG_INFO, "Array Voltage: %.2f" % array_voltage)
+			syslog.syslog(syslog.LOG_DEBUG, "Array Voltage: %.2f" % array_voltage)
 			event.record['array_voltage'] = array_voltage
 
 			# Current Related Statistics
 			array_charge_current = float(rr.registers[29]) * amperage_scaling_factor * 2 ** (-15)
-			syslog.syslog(syslog.LOG_INFO, "Array Charge Current: %.2f" % array_charge_current)
+			syslog.syslog(syslog.LOG_DEBUG, "Array Charge Current: %.2f" % array_charge_current)
 			event.record['array_charge_current'] = array_charge_current
 
 			battery_charge_current = float(rr.registers[28]) * amperage_scaling_factor * 2 ** (-15)
-			syslog.syslog(syslog.LOG_INFO, "Battery Charge Current: %.2f" % battery_charge_current)
+			syslog.syslog(syslog.LOG_DEBUG, "Battery Charge Current: %.2f" % battery_charge_current)
 			event.record['battery_charge_current'] = battery_charge_current
 
 			battery_charge_current_slow = float(rr.registers[39]) * amperage_scaling_factor * 2 ** (-15)
-			syslog.syslog(syslog.LOG_INFO, "Battery Charge Current (slow): %.2f" % battery_charge_current_slow)
+			syslog.syslog(syslog.LOG_DEBUG, "Battery Charge Current (slow): %.2f" % battery_charge_current_slow)
 			event.record['battery_charge_current_slow'] = battery_charge_current_slow
 
 			# Wattage Related Statistics
 			input_power = float(rr.registers[59]) * voltage_scaling_factor * amperage_scaling_factor * 2 ** (-17)
-			syslog.syslog(syslog.LOG_INFO, "Array Input Power: %.2f" % input_power)
+			syslog.syslog(syslog.LOG_DEBUG, "Array Input Power: %.2f" % input_power)
 			event.record['input_power'] = input_power
 
 			output_power = float(rr.registers[58]) * voltage_scaling_factor * amperage_scaling_factor * 2 ** (-17)
-			syslog.syslog(syslog.LOG_INFO, "Controller Output Power: %.2f" % output_power)
+			syslog.syslog(syslog.LOG_DEBUG, "Controller Output Power: %.2f" % output_power)
 			event.record['output_power'] = output_power
 
 			# Temperature Statistics
 			heatsink_temperature = rr.registers[35]
-			syslog.syslog(syslog.LOG_INFO, "Heatsink Temperature: %(c)d %(f).1f" % {"c": heatsink_temperature,
+			syslog.syslog(syslog.LOG_DEBUG, "Heatsink Temperature: %(c)d %(f).1f" % {"c": heatsink_temperature,
 																					"f": 9.0 / 5.0 * heatsink_temperature + 32})
 			event.record['heatsink_temperature'] = heatsink_temperature
 
 			battery_temperature = rr.registers[36]
-			syslog.syslog(syslog.LOG_INFO, "Battery Temperature: %(c)d %(f).1f" % {"c": battery_temperature,
+			syslog.syslog(syslog.LOG_DEBUG, "Battery Temperature: %(c)d %(f).1f" % {"c": battery_temperature,
 																				   "f": 9.0 / 5.0 * battery_temperature + 32})
 			event.record['battery_temperature'] = battery_temperature
 
@@ -121,26 +145,22 @@ class AddTristarData(StdService):
 							 "EQUALIZE",
 							 "SLAVE"]
 			charge_state = rr.registers[50]
-			syslog.syslog(syslog.LOG_INFO,
+			syslog.syslog(syslog.LOG_DEBUG,
 						  "Charge State %(chargeState)d - %(stateName)s" % {"chargeState": charge_state,
 																			"stateName": charge_states[charge_state]})
 			event.record['charge_state'] = charge_state
 
 			seconds_in_absorption_daily = rr.registers[77]
-			syslog.syslog(syslog.LOG_INFO, "Seconds in Absorption: %(seconds)d (%(minutes).1f minutes)" % {
+			syslog.syslog(syslog.LOG_DEBUG, "Seconds in Absorption: %(seconds)d (%(minutes).1f minutes)" % {
 				"seconds": seconds_in_absorption_daily, "minutes": float(seconds_in_absorption_daily) / 60})
 			event.record['seconds_in_absorption_daily'] = seconds_in_absorption_daily
 
 			seconds_in_float_daily = rr.registers[79]
-			syslog.syslog(syslog.LOG_INFO, "Seconds in Float: %d" % seconds_in_float_daily)
+			syslog.syslog(syslog.LOG_DEBUG, "Seconds in Float: %d" % seconds_in_float_daily)
 			event.record['seconds_in_float_daily'] = seconds_in_float_daily
 
 			seconds_in_equalization_daily = rr.registers[78]
-			syslog.syslog(syslog.LOG_INFO, "Seconds in Equalization: %d" % seconds_in_equalization_daily)
+			syslog.syslog(syslog.LOG_DEBUG, "Seconds in Equalization: %d" % seconds_in_equalization_daily)
 			event.record['seconds_in_equalization_daily'] = seconds_in_equalization_daily
 
 			client.close()
-
-
-if __name__ == '__main__':
-	print("testing")
