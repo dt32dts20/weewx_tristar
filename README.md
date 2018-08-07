@@ -9,7 +9,7 @@ I have also included an implementation of a bootstrap skin modified to
 have energy data associated with the weather data.  This ends up providing
 a great overview of your charge status:
 
-
+![screenshot image](https://github.com/jim-olsen/weewx_tristar/blob/master/screenshot.png "Screenshot of Daily Energy Scree")
 
 ## Installation Instructions
 First, you will need to copy the TristarModbusService.py to the user
