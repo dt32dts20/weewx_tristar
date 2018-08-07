@@ -7,7 +7,11 @@ the standard archive weather record as additional fields.
 
 I have also included an implementation of a bootstrap skin modified to
 have energy data associated with the weather data.  This ends up providing
-a great overview of your charge status:
+a great overview of your charge status.  This is the skin provided by:
+
+https://github.com/brewster76/fuzzy-archer
+
+extended to have graphs and controls related to solar energy charging.
 
 ![screenshot image](https://github.com/jim-olsen/weewx_tristar/blob/master/screenshot.png "Screenshot of Daily Energy Scree")
 
