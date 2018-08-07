@@ -4,6 +4,8 @@ from weewx.engine import StdService
 from pymodbus.client.sync import ModbusTcpClient
 import schemas.wview
 
+# Define our additional supported columns and their types
+
 schema_with_tristar = schemas.wview.schema + [('battery_voltage', 'REAL'),
 											  ('battery_sense_voltage', 'REAL'),
 											  ('battery_voltage_slow', 'REAL'),
@@ -24,6 +26,9 @@ schema_with_tristar = schemas.wview.schema + [('battery_voltage', 'REAL'),
 											  ('seconds_in_equalize_daily', 'REAL')]
 
 import weewx.units
+
+# Define the schema column types for weewx types
+
 weewx.units.obs_group_dict['battery_voltage'] = 'group_volt'
 weewx.units.obs_group_dict['battery_sense_voltage'] = 'group_volt'
 weewx.units.obs_group_dict['battery_voltage_slow'] = 'group_volt'
@@ -48,11 +53,15 @@ weewx.units.obs_group_dict['seconds_in_absorption_daily'] = 'group_elapsed'
 weewx.units.obs_group_dict['seconds_in_float_daily'] = 'group_elapsed'
 weewx.units.obs_group_dict['seconds_in_equalize_daily'] = 'group_elapsed'
 
+# The data service implementation class itself.  Adds charge controller parameters to the weather record (archive)
+# at the time it is received from weewx.  These will be persisted by weewx to the database for later consumption
+
 class AddTristarData(StdService):
 	def __init__(self, engine, config_dict):
 		# Initialize Superclass
 		super(AddTristarData, self).__init__(engine, config_dict)
 
+		# Grab the configuration parameters for communication with the charge controller
 		try:
 			self.tristar_address = config_dict['Tristar']['address']
 			self.tristar_port = int(config_dict['Tristar'].get('port', 502))
@@ -65,10 +74,14 @@ class AddTristarData(StdService):
 		except KeyError as e:
 			syslog.syslog(syslog.LOG_ERR, "Tristar failed to configure")
 
+	#
+	# new_archive_packet()
+	#   Called by weewx when a new archive packet is received.  Talk to the charge controller and grab the current
+	# values from modbus and append to the current archive packet.
+	#
 	def new_archive_packet(self, event):
 		client = ModbusTcpClient(self.tristar_address, port=self.tristar_port)
 		client.connect()
-		print(client)
 		rr = client.read_holding_registers(0, 92, unit=1)
 		if rr is None:
 			client.close()
@@ -132,12 +145,12 @@ class AddTristarData(StdService):
 			# Temperature Statistics
 			heatsink_temperature = rr.registers[35]
 			syslog.syslog(syslog.LOG_DEBUG, "Heatsink Temperature: %(c)d %(f).1f" % {"c": heatsink_temperature,
-																					"f": 9.0 / 5.0 * heatsink_temperature + 32})
+																					 "f": 9.0 / 5.0 * heatsink_temperature + 32})
 			event.record['heatsink_temperature'] = heatsink_temperature
 
 			battery_temperature = rr.registers[36]
 			syslog.syslog(syslog.LOG_DEBUG, "Battery Temperature: %(c)d %(f).1f" % {"c": battery_temperature,
-																				   "f": 9.0 / 5.0 * battery_temperature + 32})
+																					"f": 9.0 / 5.0 * battery_temperature + 32})
 			event.record['battery_temperature'] = battery_temperature
 
 			# Misc Statistics
