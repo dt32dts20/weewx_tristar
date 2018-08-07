@@ -87,19 +87,19 @@ After you perform this, these new columns will be available:
 
 battery_voltage
 battery_sense_voltage
-battery_voltage_slow', 'REAL'),
-battery_daily_minimum_voltage', 'REAL'),
-battery_daily_maximum_voltage', 'REAL'),
-target_regulation_voltage', 'REAL'),
-array_voltage', 'REAL'),
-array_charge_current', 'REAL'),
-battery_charge_current', 'REAL'),
-battery_charge_current_slow', 'REAL'),
-input_power', 'REAL'),
-output_power', 'REAL'),
-heatsink_temperature', 'REAL'),
-battery_temperature', 'REAL'),
-charge_state', 'REAL'),
-seconds_in_absorption_daily', 'REAL'),
-seconds_in_float_daily', 'REAL'),
-seconds_in_equalize_daily', 'REAL')]
+battery_voltage_slow
+battery_daily_minimum_voltage
+battery_daily_maximum_voltage
+target_regulation_voltage
+array_voltage
+array_charge_current
+battery_charge_current
+battery_charge_current_slow
+input_power
+output_power
+heatsink_temperature
+battery_temperature
+charge_state
+seconds_in_absorption_daily
+seconds_in_float_daily
+seconds_in_equalize_daily
