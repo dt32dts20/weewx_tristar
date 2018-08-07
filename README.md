@@ -92,16 +92,16 @@ After you perform this, these new columns will be available:
 | battery_voltage_slow            | The battery voltage used in charge calcs heavily filtered  | Volts | 
 | battery_daily_minimum_voltage   | The minimum voltage encountered since last night mode      | Volts |
 | battery_daily_maximum_voltage   | The maximum voltage encountered since last night mode      | Volts |
-| target_regulation_voltage       | 
-| array_voltage                   |
-| array_charge_current            |
-| battery_charge_current          |
-| battery_charge_current_slow     |
-| input_power                     |
-| output_power                    |
-| heatsink_temperature            |
-| battery_temperature             |
-| charge_state                    |
-| seconds_in_absorption_daily     |
-| seconds_in_float_daily          |
-| seconds_in_equalize_daily       |
+| target_regulation_voltage       | The target voltage to charge the batteries to              | Volts |
+| array_voltage                   | The current voltage of the solar array                     | Volts |
+| array_charge_current            | The current being produced by the solar panels             | Amps  |
+| battery_charge_current          | The current currently used to charge the battery           | Amps  |
+| battery_charge_current_slow     | The current charging the battery heavily filtered          | Amps  |
+| input_power                     | The current charge power coming in from the array          | Watts |
+| output_power                    | The current charge power being sent to the batteries       | Watts |
+| heatsink_temperature            | The temperature of the controller heat sink                | Temp  |
+| battery_temperature             | The temperature of the batteries                           | Temp  |
+| charge_state                    | The current state the charge cycle is in                   | Int   |
+| seconds_in_absorption_daily     | The time spent in the absorption cycle state since night   | secs  |
+| seconds_in_float_daily          | The time spent in the float cycle state since night        | secs  |
+| seconds_in_equalize_daily       | The time spent in the equalize state since night           | secs  |
