@@ -5,6 +5,12 @@ to the standard weather record.  It polls the modbus interface of the
 tristar controller and pulls the major records and adds them onto
 the standard archive weather record as additional fields.
 
+I have also included an implementation of a bootstrap skin modified to
+have energy data associated with the weather data.  This ends up providing
+a great overview of your charge status:
+
+
+
 ## Installation Instructions
 First, you will need to copy the TristarModbusService.py to the user
 directory in the standard weewx install location.  This will add the
@@ -76,6 +82,9 @@ only including instructions for sqlite here, so if you want to know more
 about this process, I suggest looking in the weewx documentation at:
 
 http://weewx.com/docs/customizing.htm#add_archive_type
+
+Change to the directory where your sqlite files are located, and execute
+the following commands:
 
 ```
 wee_database /etc/weewx/weewx.conf --reconfigure
