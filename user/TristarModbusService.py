@@ -178,5 +178,5 @@ class AddTristarData(StdService):
 				event.record['seconds_in_equalization_daily'] = seconds_in_equalization_daily
 				client.close()
 		except Exception as e:
-			syslog.syslog(syslog.LOG_ERR, "Error processing record from tristar: " + e)
+			syslog.syslog(syslog.LOG_ERR, "Error processing record from tristar: " + str(e))
 			client.close()
