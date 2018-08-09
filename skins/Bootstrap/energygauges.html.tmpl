@@ -1,0 +1,67 @@
+        <div class="col-md-4">
+          <div class="row">
+              <div class="col-md-6" align="center">
+                <img src="battery_voltageGauge.png" alt="">
+                <h5>Battery Voltage</h5>
+              </div>
+              <div class="col-md-6" align="center">
+                <img src="output_powerGauge.png" alt="">
+                <h5>Charge Power</h5>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-6" align="center">
+                <img src="outTempGauge.png" alt="">
+                <h5>$Labels.Generic.outTemp</h5>
+              </div>          
+              <div class="col-md-6" align="center">
+                <img src="inTempGauge.png" alt="">
+                <h5>$Labels.Generic.outTemp</h5>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-6" align="center">
+                <img src="windDirGauge.png" alt="">
+                <h5>$Labels.Generic.windDir</h5>
+              </div>          
+
+              <div class="col-md-6" align="center">
+                <img src="windSpeedGauge.png" alt="">
+                <h5>$Labels.Generic.windSpeed</h5>
+              </div>
+
+          </div>
+
+          <!-- Station info -->
+          <div class="row">
+            <table class="table table-hover">
+              <tbody>
+	              <tr>
+	                <td>Battery Voltage</td>
+	                <td>$current.battery_sense_voltage</td>
+	              </tr>
+	              <tr>
+	                <td>Charge Power</td>
+	                <td>$current.output_power</td>
+	              </tr>
+	              <tr>
+	                <td>Charge State</td>
+	                <td>$current.charge_state</td>
+	              </tr>
+	              <tr>
+	                <td>Daily Absorption Seconds</td>
+	                <td>$current.seconds_in_absorption_daily</td>
+	              </tr>
+	              <tr>
+	                <td>Daily Float Seconds</td>
+	                <td>$current.seconds_in_float_daily</td>
+	              </tr>
+	              <tr>
+	                <td>$BootstrapLabels.status.server_uptime</td>
+	                <td>$station.os_uptime</td>
+	              </tr>
+	            </tbody>
+            </table>  
+          </div>        
+          
+        </div>
